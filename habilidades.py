@@ -10,8 +10,11 @@ class Habilidades(Resource):
 
     def post(self):
         dados = json.loads(request.data)
-        lista_habilidades.append(dados)
-        return dados
+        if dados not in lista_habilidades:
+            lista_habilidades.append(dados)
+            return dados
+        else:
+            return {"status": "error", "message": "Hability already exisits"}
 
 class ListaHabilidades(Resource):
 
@@ -20,8 +23,12 @@ class ListaHabilidades(Resource):
 
     def put(self, id):
         dados = json.loads(request.data)
-        lista_habilidades[id] = dados
-        return {"status": "success", "message": "Hability updated"}
+        if dados not in lista_habilidades:
+            lista_habilidades[id] = dados
+            return {"status": "success", "message": "Hability updated"}
+        else:
+            return {"status": "error", "message": "Hability already exisits"}
+
 
     def delete(self, id):
         lista_habilidades.pop(id)
